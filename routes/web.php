@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SignatureController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +18,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::get('/', [SignatureController::class, 'home']);
+
+
+Route::resource('users', UserController::class);
+Route::resource('departments', DepartmentController::class);
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/signature', [SignatureController::class, 'index'])->name('signature.index');
+    Route::get('/profile/{id}', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::prefix('data')->group(function () {
+        Route::get('/users', [UserController::class, 'data'])->name('users.data');
+    });
 });
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Auth::routes();

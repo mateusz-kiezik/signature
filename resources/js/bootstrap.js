@@ -1,8 +1,12 @@
 window._ = require('lodash');
 
+window.Swal = require('sweetalert2');
+
 try {
     require('bootstrap');
 } catch (e) {}
+
+require('datatables.net-bs5');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

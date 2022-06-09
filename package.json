@@ -18,6 +18,12 @@
         "postcss": "^8.1.14",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.32.11",
-        "sass-loader": "^11.0.1"
+        "sass-loader": "^13.0.0"
+    },
+    "dependencies": {
+        "autoprefixer": "10.4.5",
+        "datatables.net-bs5": "^1.12.1",
+        "datatables.net-buttons-bs5": "^2.2.3",
+        "sweetalert2": "^11.4.17"
     }
 }
