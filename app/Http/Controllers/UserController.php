@@ -6,11 +6,14 @@ use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Department;
 use App\Models\User;
+use App\Notifications\WelcomeEmailNotification;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Password;
 use Illuminate\View\View;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
@@ -68,7 +71,7 @@ class UserController extends Controller
     public function store(CreateUserRequest $request): RedirectResponse
     {
         try {
-            User::create([
+            $user = User::create([
                 'name' => $request['name'],
                 'email' => $request['email'],
                 'position' => $request['position'],
@@ -81,6 +84,11 @@ class UserController extends Controller
                 'status' => 1,
                 'password' => 'password'
             ]);
+
+//            $token = Password::broker('users')->createToken($user);
+//
+//            Notification::send($user, new WelcomeEmailNotification($user, $token));
+
             Alert::success('Success', 'New user created successfully.');
             return redirect()->route('users.index');
         } catch (Exception $e) {

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SignatureController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,8 @@ Route::resource('users', UserController::class);
 Route::post('users/{id}/disable', [UserController::class, 'disable'])->name('users.disable');
 Route::post('users/{id}/enable', [UserController::class, 'enable'])->name('users.enable');
 Route::resource('departments', DepartmentController::class);
+Route::get('/account/create/{token}', [RegisterController::class, 'index'])->name('account.create.index');
+Route::post('/account/create', [RegisterController::class, 'store'])->name('account.create.store');
 
 
 Route::middleware('auth')->group(function () {
@@ -35,4 +38,4 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Auth::routes();
+Auth::routes(['register' => false]);
