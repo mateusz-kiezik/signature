@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\Department;
 use App\Models\User;
 use Exception;
@@ -13,18 +14,32 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
+use Yajra\DataTables\Html\Builder;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Builder $builder)
     {
-        return view('pages.users.index');
+        if (request()->ajax()) {
+            return $this->data();
+        }
+
+        $html = $builder->columns([
+            ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
+            ['data' => 'email', 'name' => 'email', 'title' => 'E-mail'],
+            ['data' => 'mobile', 'name' => 'mobile', 'title' => 'Mobile number'],
+            ['data' => 'department', 'name' => 'department.short', 'title' => 'Department'],
+            ['data' => 'status', 'name' => 'status', 'title' => 'Status'],
+            ['data' => 'action', 'name' => 'action', 'title' => 'Action', 'orderable' => false, 'searchable' => false, 'width' => '20%']
+        ]);
+
+        return view('pages.users.index', compact('html'));
     }
 
     public function data(): JsonResponse
     {
-        $model = User::where('role_id', 1)->get();
-        return DataTables::collection($model)
+        $data = User::where('role_id', 1)->get();
+        return DataTables::collection($data)
             ->addColumn('department', function (User $user) {
                 return $user->department->short;
             })
@@ -36,9 +51,10 @@ class UserController extends Controller
                 } else {
                     $color = 'bg-secondary';
                 }
-                return '<span class="badge '. $color .'">'. $user->status() .'</span>';
+                return '<span class="badge ' . $color . '">' . $user->status() . '</span>';
             })
-            ->rawColumns(['status'])
+            ->addColumn('action', 'actions.users')
+            ->rawColumns(['status', 'action'])
             ->toJson();
     }
 
@@ -62,6 +78,7 @@ class UserController extends Controller
                 'wechat' => $request['wechat'],
                 'department_id' => $request['department_id'],
                 'role_id' => 1,
+                'status' => 1,
                 'password' => 'password'
             ]);
             Alert::success('Success', 'New user created successfully.');
@@ -75,27 +92,79 @@ class UserController extends Controller
 
     public function show($id): View
     {
-        try {
-            return view('pages.users.show', [
-                'user' => User::findOrFail($id)
-            ]);
-        } catch (Exception $e) {
-            Log::error($e->getMessage());
-        }
+        return view('pages.users.show', [
+            'user' => User::findOrFail($id)
+        ]);
     }
 
     public function edit($id)
     {
-        //
+        return view('pages.users.edit', [
+            'user' => User::findOrFail($id),
+            'departments' => Department::all()
+        ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        //
+        try {
+            if ($request['password'] != null) {
+                $req = $request->all();
+            } else {
+                $req = $request->except(['password', 'password_confirmation']);
+            }
+            User::findOrFail($id)->update($req);
+            Alert::success('Success', 'Your profile updated successfully');
+            return redirect()->back();
+        } catch (Exception $e) {
+            Log::error($e);
+            Alert::error('Error', 'Failed to update data. Please try again.');
+            return redirect()->back();
+        }
     }
 
     public function destroy($id)
     {
-        //
+        try {
+            User::findOrFail($id)->delete();
+            return response()->json([
+                'success' => true
+            ]);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([
+                'success' => false
+            ]);
+        }
+    }
+
+    public function disable($id)
+    {
+        try {
+            User::findOrFail($id)->update(['status' => 0]);
+            return response()->json([
+                'success' => true
+            ]);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([
+                'success' => false
+            ]);
+        }
+    }
+
+    public function enable($id)
+    {
+        try {
+            User::findOrFail($id)->update(['status' => 1]);
+            return response()->json([
+                'success' => true
+            ]);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json([
+                'success' => false
+            ]);
+        }
     }
 }

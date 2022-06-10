@@ -50,6 +50,45 @@ class UserSeeder extends Seeder
                 'password' => 'password',
                 'role_id' => 1,
                 'status' => 1
+            ],
+            [
+                'name' => 'Damian Malinowski',
+                'position' => 'Spedytor Krajowy',
+                'position_en' => 'Freight Forwarder',
+                'phone' => '0048 71 754 22 11',
+                'mobile' => '0048 588 554 221',
+                'wechat' => 'DamianPL',
+                'department_id' => 4,
+                'email' => 'damian1@test',
+                'password' => 'password',
+                'role_id' => 1,
+                'status' => 1
+            ],
+            [
+                'name' => 'Damian Malinowski',
+                'position' => 'Spedytor Krajowy',
+                'position_en' => 'Freight Forwarder',
+                'phone' => '0048 71 754 22 11',
+                'mobile' => '0048 588 554 221',
+                'wechat' => 'DamianPL',
+                'department_id' => 4,
+                'email' => 'damian2@test',
+                'password' => 'password',
+                'role_id' => 1,
+                'status' => 1
+            ],
+            [
+                'name' => 'Damian Malinowski',
+                'position' => 'Spedytor Krajowy',
+                'position_en' => 'Freight Forwarder',
+                'phone' => '0048 71 754 22 11',
+                'mobile' => '0048 588 554 221',
+                'wechat' => 'DamianPL',
+                'department_id' => 4,
+                'email' => 'damian3@test',
+                'password' => 'password',
+                'role_id' => 1,
+                'status' => 1
             ]
         ];
 

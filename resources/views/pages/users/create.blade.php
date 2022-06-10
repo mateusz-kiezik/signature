@@ -48,7 +48,7 @@
                 <div class="input-group">
                     <span class="input-group-text"><img src="{{ asset('icons/phone-in-talk.svg') }}"></span>
                     <input class="form-control @error('phone') is-invalid @enderror" name="phone"
-                           value="{{ old('phone') }}">
+                           value="{{ old('phone') }}" placeholder="0048 71 123 45 67">
                 </div>
                 @error('phone')
                 <span class="invalid-feedback d-flex" role="alert">
@@ -61,7 +61,7 @@
                     <span class="input-group-text @error('mobile') border-danger @enderror"><img
                             src="{{ asset('icons/cellphone.svg') }}"></span>
                     <input class="form-control @error('mobile') is-invalid @enderror" name="mobile"
-                           value="{{ old('mobile') }}">
+                           value="{{ old('mobile') }}" placeholder="0048 555 666 777">
                 </div>
                 @error('mobile')
                 <span class="invalid-feedback d-flex" role="alert">

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Models\Department;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
@@ -14,14 +17,20 @@ class ProfileController extends Controller
     public function index(int $id): View
     {
         return view('pages.profile', [
-            'user' => User::findOrFail($id)
+            'user' => User::findOrFail($id),
+            'departments' => Department::all()
         ]);
     }
 
-    public function update(Request $request)
+    public function update(UpdateProfileRequest $request)
     {
         try {
-            User::findOrFail($request['id'])->update(array_filter($request->all()));
+            if ($request['password'] != null) {
+                $req = $request->all();
+            } else {
+                $req = $request->except(['password', 'password_confirmation']);
+            }
+            User::findOrFail($request['id'])->update($req);
             Alert::success('Success', 'Your profile updated successfully');
             return redirect()->back();
         } catch (Exception $e) {
@@ -29,6 +38,5 @@ class ProfileController extends Controller
             Alert::error('Error', 'Failed to update data. Please try again.');
             return redirect()->back();
         }
-
     }
 }

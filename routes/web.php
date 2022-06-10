@@ -23,6 +23,8 @@ Route::get('/', [SignatureController::class, 'home']);
 
 
 Route::resource('users', UserController::class);
+Route::post('users/{id}/disable', [UserController::class, 'disable'])->name('users.disable');
+Route::post('users/{id}/enable', [UserController::class, 'enable'])->name('users.enable');
 Route::resource('departments', DepartmentController::class);
 
 
@@ -30,10 +32,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/signature', [SignatureController::class, 'index'])->name('signature.index');
     Route::get('/profile/{id}', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-
-    Route::prefix('data')->group(function () {
-        Route::get('/users', [UserController::class, 'data'])->name('users.data');
-    });
 });
 
 

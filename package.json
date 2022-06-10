@@ -22,8 +22,6 @@
     },
     "dependencies": {
         "autoprefixer": "10.4.5",
-        "datatables.net-bs5": "^1.12.1",
-        "datatables.net-buttons-bs5": "^2.2.3",
         "sweetalert2": "^11.4.17"
     }
 }

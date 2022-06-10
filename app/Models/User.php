@@ -29,7 +29,8 @@ class User extends Authenticatable
         'mobile',
         'wechat',
         'department_id',
-        'role_id'
+        'role_id',
+        'status'
     ];
 
     /**
