@@ -33,12 +33,9 @@ class AuthServiceProvider extends ServiceProvider
 
         VerifyEmail::createUrlUsing(function ($notifiable) {
             $token = Password::broker('users')->createToken($notifiable);
-
-            return URL::temporarySignedRoute(
+            return URL::route(
                 'verification.complete',
-                Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
                 [
-                    'id' => $notifiable->getKey(),
                     'token' => $token,
                     'email' => $notifiable->email,
                     'name' => $notifiable->name

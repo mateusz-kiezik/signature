@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
@@ -71,7 +72,7 @@ class UserController extends Controller
     public function store(CreateUserRequest $request): RedirectResponse
     {
         try {
-            $user = User::create([
+            User::create([
                 'name' => $request['name'],
                 'email' => $request['email'],
                 'position' => $request['position'],
@@ -81,14 +82,10 @@ class UserController extends Controller
                 'wechat' => $request['wechat'],
                 'department_id' => $request['department_id'],
                 'role_id' => 1,
-                'password' => 'password'
+                'password' => Str::random(10)
             ])->sendEmailVerificationNotification();
 
-//            $token = Password::broker('users')->createToken($user);
-//
-//            Notification::send($user, new WelcomeEmailNotification($user, $token));
-
-            Alert::success('Success', 'New user created successfully.');
+            toast('New user created successfully','success','top-right');
             return redirect()->route('users.index');
         } catch (Exception $e) {
             Log::error($e->getMessage());

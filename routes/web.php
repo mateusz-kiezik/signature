@@ -22,22 +22,29 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [SignatureController::class, 'home']);
 
-Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
+
 Route::get('email/complete', [VerificationController::class, 'complete'])->name('verification.complete');
-Route::post('email/verify/{id}/{token}', [VerificationController::class, 'verify'])->name('verification.verify');
-Route::post('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
+Route::post('email/verify/{token}', [VerificationController::class, 'verify'])->name('verification.verify');
+
 
 Route::resource('users', UserController::class);
 Route::post('users/{id}/disable', [UserController::class, 'disable'])->name('users.disable');
 Route::post('users/{id}/enable', [UserController::class, 'enable'])->name('users.enable');
 Route::resource('departments', DepartmentController::class);
+Route::get('/signature', [SignatureController::class, 'index'])->name('signature.index');
+
+Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
 
-Route::middleware('verified')->group(function () {
-    Route::get('/signature', [SignatureController::class, 'index'])->name('signature.index');
-    Route::get('/profile/{id}', [ProfileController::class, 'index'])->name('profile.index');
-    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-});
 
 
 Auth::routes(['register' => false]);
+
+Route::middleware('auth')->group(function () {
+    Route::get('email/verify', [VerificationController::class, 'show'])->name('verification.notice');
+    Route::post('email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
+});
+
+Route::middleware('verified')->group(function () {
+    Route::get('/profile/{id}', [ProfileController::class, 'index'])->name('profile.index');
+});

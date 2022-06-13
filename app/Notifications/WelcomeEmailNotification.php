@@ -19,12 +19,10 @@ class WelcomeEmailNotification extends Notification
      */
 
     public User $user;
-    public string $token;
 
-    public function __construct(User $user, string $token)
+    public function __construct(User $user)
     {
         $this->user = $user;
-        $this->token = $token;
     }
 
     /**
@@ -47,11 +45,11 @@ class WelcomeEmailNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Complete registration')
-            ->greeting('Hello, '.$this->user->name)
-            ->line('Welcome to RL-Signature.')
-            ->line('To continue please set the password and complete registration.')
-            ->action('Set password', url('account/create/'.$this->token.'?email='.$this->user->email))
+            ->subject('Welcome to RL-Signature')
+            ->greeting('Hello, '.strstr($this->user->name, ' ', true))
+            ->line('You\'re account has been registered successfully.')
+            ->line('Check your profile to make sure all the details match.')
+            ->action('My profile', url('profile/'.$this->user->id))
             ->line('Thank you for using our application!');
     }
 

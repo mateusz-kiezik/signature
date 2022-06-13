@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules;
 
 class CompleteRegisterRequest extends FormRequest
 {
@@ -24,7 +25,9 @@ class CompleteRegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'password' => ['required', 'string', 'min:8', 'confirmed']
+            'token' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ];
     }
 }
