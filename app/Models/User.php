@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -29,8 +29,7 @@ class User extends Authenticatable
         'mobile',
         'wechat',
         'department_id',
-        'role_id',
-        'status'
+        'role_id'
     ];
 
     /**
@@ -74,12 +73,10 @@ class User extends Authenticatable
 
     public function status(): string
     {
-        if ($this->status == 1 && $this->email_verified_at != null) {
+        if ($this->email_verified_at != null) {
             return 'Active';
-        } elseif ($this->status == 1) {
-            return 'Not confirmed';
         } else {
-            return 'Disabled';
+            return 'Not confirmed';
         }
     }
 }

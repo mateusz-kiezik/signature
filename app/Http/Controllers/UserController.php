@@ -81,9 +81,8 @@ class UserController extends Controller
                 'wechat' => $request['wechat'],
                 'department_id' => $request['department_id'],
                 'role_id' => 1,
-                'status' => 1,
                 'password' => 'password'
-            ]);
+            ])->sendEmailVerificationNotification();
 
 //            $token = Password::broker('users')->createToken($user);
 //

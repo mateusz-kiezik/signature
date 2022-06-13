@@ -5,12 +5,13 @@
         <div class="col-6">
 
             <h2 class="fw-bold text-center my-4">{{ __('Create new user') }}</h2>
+            <button class="btn btn-secondary btn-sm" id="fill-btn" type="button">FILL</button>
 
-            <form method="POST" action="{{ route('users.store') }}" autocomplete="off" id="userForm">
+            <form method="POST" action="{{ route('users.store') }}" autocomplete="on" id="userForm">
                 @csrf
 
                 <label class="form-label mt-2">{{ __('Name') }}<span class="text-danger"> *</span></label>
-                <input class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}">
+                <input class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" id="name">
                 @error('name')
                 <span class="invalid-feedback d-flex" role="alert">
                     <strong>{{ $message }}</strong>
@@ -19,7 +20,7 @@
 
                 <label class="form-label mt-2">{{ __('E-mail') }}<span class="text-danger"> *</span></label>
                 <input class="form-control @error('email') is-invalid @enderror" name="email"
-                       value="{{ old('email') }}">
+                       value="{{ old('email') }}" id="email">
                 @error('email')
                 <span class="invalid-feedback d-flex" role="alert">
                     <strong>{{ $message }}</strong>
@@ -28,7 +29,7 @@
 
                 <label class="form-label mt-2">{{ __('Position') }}<span class="text-danger"> *</span></label>
                 <input class="form-control @error('position') is-invalid @enderror" name="position"
-                       value="{{ old('position') }}">
+                       value="{{ old('position') }}" id="position">
                 @error('position')
                 <span class="invalid-feedback d-flex" role="alert">
                     <strong>{{ $message }}</strong>
@@ -37,7 +38,7 @@
 
                 <label class="form-label mt-2">{{ __('Position (ENG)') }}</label>
                 <input class="form-control @error('position_en') is-invalid @enderror" name="position_en"
-                       value="{{ old('position_en') }}">
+                       value="{{ old('position_en') }}" id="position_en">
                 @error('position_en')
                 <span class="invalid-feedback d-flex" role="alert">
                     <strong>{{ $message }}</strong>
@@ -48,7 +49,7 @@
                 <div class="input-group">
                     <span class="input-group-text"><img src="{{ asset('icons/phone-in-talk.svg') }}"></span>
                     <input class="form-control @error('phone') is-invalid @enderror" name="phone"
-                           value="{{ old('phone') }}" placeholder="0048 71 123 45 67">
+                           value="{{ old('phone') }}" placeholder="0048 71 123 45 67" id="phone">
                 </div>
                 @error('phone')
                 <span class="invalid-feedback d-flex" role="alert">
@@ -61,7 +62,7 @@
                     <span class="input-group-text @error('mobile') border-danger @enderror"><img
                             src="{{ asset('icons/cellphone.svg') }}"></span>
                     <input class="form-control @error('mobile') is-invalid @enderror" name="mobile"
-                           value="{{ old('mobile') }}" placeholder="0048 555 666 777">
+                           value="{{ old('mobile') }}" placeholder="0048 555 666 777" id="mobile">
                 </div>
                 @error('mobile')
                 <span class="invalid-feedback d-flex" role="alert">
@@ -73,7 +74,7 @@
                 <div class="input-group">
                     <span class="input-group-text"><img src="{{ asset('icons/wechat.svg') }}"></span>
                     <input class="form-control @error('wechat') is-invalid @enderror" name="wechat"
-                           value="{{ old('wechat') }}">
+                           value="{{ old('wechat') }}" id="wechat">
                 </div>
                 @error('wechat')
                 <span class="invalid-feedback d-flex" role="alert">
@@ -82,7 +83,7 @@
                 @enderror
 
                 <label class="form-label mt-2">{{ __('Department') }}<span class="text-danger"> *</span></label>
-                <select class="form-select @error('department_id') is-invalid @enderror" name="department_id">
+                <select class="form-select @error('department_id') is-invalid @enderror" name="department_id" id="department_id">
                     <option value="" readonly>-- {{ __('Select department') }} --</option>
                     @foreach($departments as $department)
                         <option value="{{ $department->id }}">
@@ -107,6 +108,7 @@
     <script>
         const save = document.getElementById('saveButton');
         const form = document.getElementById('userForm');
+        const fill = document.getElementById('fill-btn');
         save.onclick = function () {
             Swal.fire({
                 title: 'Are you sure you want to create new user?',
@@ -122,6 +124,16 @@
                     form.submit();
                 }
             })
+        };
+        fill.onclick = function () {
+            document.getElementById('name').value = 'Mateusz Kiezik';
+            document.getElementById('email').value = 'mateusz.kiezik@gmail.com';
+            document.getElementById('position').value = 'Spedytor Międzynarodowy';
+            document.getElementById('position_en').value = 'International Freight Forwarder';
+            document.getElementById('phone').value = '0048 71 154 25 44';
+            document.getElementById('mobile').value = '0048 554 221 887';
+            document.getElementById('wechat').value = 'MateuszRLT';
+            document.getElementById('department_id').value = 4;
         };
     </script>
 @endpush

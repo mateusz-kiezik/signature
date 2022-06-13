@@ -22,8 +22,7 @@ class UserSeeder extends Seeder
                 'department_id' => 1,
                 'email' => 'admin@rl',
                 'password' => 'password',
-                'role_id' => 2,
-                'status' => 1
+                'role_id' => 2
             ],
             [
                 'name' => 'Adam Kowalski',
@@ -35,8 +34,7 @@ class UserSeeder extends Seeder
                 'department_id' => 1,
                 'email' => 'adam@test',
                 'password' => 'password',
-                'role_id' => 1,
-                'status' => 1
+                'role_id' => 1
             ],
             [
                 'name' => 'Damian Malinowski',
@@ -48,8 +46,7 @@ class UserSeeder extends Seeder
                 'department_id' => 4,
                 'email' => 'damian@test',
                 'password' => 'password',
-                'role_id' => 1,
-                'status' => 1
+                'role_id' => 1
             ],
             [
                 'name' => 'Damian Malinowski',
@@ -61,8 +58,7 @@ class UserSeeder extends Seeder
                 'department_id' => 4,
                 'email' => 'damian1@test',
                 'password' => 'password',
-                'role_id' => 1,
-                'status' => 1
+                'role_id' => 1
             ],
             [
                 'name' => 'Damian Malinowski',
@@ -74,8 +70,7 @@ class UserSeeder extends Seeder
                 'department_id' => 4,
                 'email' => 'damian2@test',
                 'password' => 'password',
-                'role_id' => 1,
-                'status' => 1
+                'role_id' => 1
             ],
             [
                 'name' => 'Damian Malinowski',
@@ -87,8 +82,7 @@ class UserSeeder extends Seeder
                 'department_id' => 4,
                 'email' => 'damian3@test',
                 'password' => 'password',
-                'role_id' => 1,
-                'status' => 1
+                'role_id' => 1
             ]
         ];
 
